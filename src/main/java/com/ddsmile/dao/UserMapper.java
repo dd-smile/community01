@@ -59,4 +59,11 @@ public interface UserMapper {
      * @return
      */
     int updatePassword(int id, String password);
+
+    /**
+     * 删除用户
+     * @param id 用户id
+     * @return
+     */
+    int deleteUser(int id);
 }

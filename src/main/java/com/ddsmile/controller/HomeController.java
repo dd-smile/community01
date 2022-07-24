@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 视图层
+ * 首页视图层
+ * 完成的功能是 : 查询用户所发表的帖子显示在首页中
  */
 @Controller
 public class HomeController {
