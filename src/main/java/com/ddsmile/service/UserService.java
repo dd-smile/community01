@@ -221,4 +221,13 @@ public class UserService implements CommunityConstant {
     public int updateHeader(int userId, String headurl){
         return userMapper.updateHeader(userId, headurl);
     }
+
+    /**
+     * 修改密码
+     * @param userId 用户id
+     * @param password 新密码
+     */
+    public void updatePassword(int userId, String password){
+        userMapper.updatePassword(userId, password);
+    }
 }

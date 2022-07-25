@@ -1,5 +1,6 @@
 package com.ddsmile.controller;
 
+import com.ddsmile.annotation.LoginRequired;
 import com.ddsmile.entity.User;
 import com.ddsmile.service.UserService;
 import com.ddsmile.util.CommunityUtil;
@@ -50,12 +51,14 @@ public class UserController {
     private HostHolder hostHolder;
 
     //进入账号设置
+    @LoginRequired
     @RequestMapping(path="/setting",method = RequestMethod.GET)
     public String getSettingPage(){
         return "/site/setting";
     }
 
     //上传头像
+    @LoginRequired
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     public String uploadHeader(MultipartFile headerImage, Model model){
         //如果没上传头像，就点击上传头像按钮
@@ -113,5 +116,36 @@ public class UserController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //修改用户密码
+    @LoginRequired
+    @RequestMapping(path = "/updatePassword", method = RequestMethod.POST)
+    public String updatePassword(String originalPassword,String newPassword,String confirmPassword,Model model) {
+        if (originalPassword == null) {
+            model.addAttribute("originalPasswordMsg", "请输入原始密码!");
+            return "/site/setting";
+        }
+        if (newPassword == null) {
+            model.addAttribute("newPasswordMsg", "请输入新密码!");
+            return "/site/setting";
+        }
+        if (confirmPassword == null) {
+            model.addAttribute("confirmPasswordMsg", "请确认密码!");
+            return "/site/setting";
+        }
+
+        //确认账号
+        User user = hostHolder.getUser();
+        if (!CommunityUtil.md5(originalPassword + user.getSalt()).equals(user.getPassword())) {
+            model.addAttribute("originalPasswordMsg", "密码错误!");
+            return "/site/setting";
+        }
+        if (!confirmPassword.equals(newPassword)) {
+            model.addAttribute("confirmPasswordMsg", "两次输入的密码不一致!");
+            return "/site/setting";
+        }
+        userService.updatePassword(user.getId(), CommunityUtil.md5(newPassword + user.getSalt()));
+        return "redirect:/login";
     }
 }

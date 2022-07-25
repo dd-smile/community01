@@ -11,10 +11,10 @@ import java.util.List;
 public interface DiscussPostMapper {
 
     /**
-     * 查询用户个人的所有帖子：用户ID、分页的起始行号、每页展示的数目
-     * @param userId
-     * @param offset
-     * @param limit
+     * 查询用户个人的所有帖子
+     * @param userId 用户ID
+     * @param offset 分页的起始行号
+     * @param limit 每页展示的数目(最多展示多少)
      * @return
      */
     List<DiscussPost> selectDiscussPosts(int userId, int offset, int limit);
@@ -24,8 +24,22 @@ public interface DiscussPostMapper {
 
     /**
      * 查询总页数
-     * @param userId
+     * @param userId 用户id
      * @return
      */
     int selectDiscussPostRows(@Param("userId")int userId);
+
+    /**
+     * 发布帖子
+     * @param discussPost 帖子(类)
+     * @return
+     */
+    int insertDiscussPost(DiscussPost discussPost);
+
+    /**
+     * 根据主键查询帖子
+     * @param id 帖子id
+     * @return
+     */
+    DiscussPost selectDiscussPostById(int id);
 }
