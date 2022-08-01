@@ -59,7 +59,7 @@ public class Page {
      * 获取当前页的起始行
      * @return
      */
-    public int getoffset(){
+    public int getOffset(){
         //计算公式为: current * limit - limit
         return (current - 1) * limit;
     }

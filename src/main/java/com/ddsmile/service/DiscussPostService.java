@@ -70,4 +70,14 @@ public class DiscussPostService {
         return discussPostMapper.selectDiscussPostById(id);
     }
 
+    /**
+     * 插入评论后，更新对应帖子的评论数量
+     * @param id 帖子id
+     * @param commentCount 评论数量
+     * @return
+     */
+    public int updateCommentCount(int id, int commentCount){
+        return discussPostMapper.updateCommentCount(id, commentCount);
+    }
+
 }

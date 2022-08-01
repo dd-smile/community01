@@ -1,6 +1,7 @@
 package com.ddsmile.community;
 
 
+import com.ddsmile.dao.CommentMapper;
 import com.ddsmile.dao.DiscussPostMapper;
 import com.ddsmile.dao.LoginTicketMapper;
 import com.ddsmile.dao.UserMapper;
@@ -87,8 +88,8 @@ class CommunityApplicationTests {
 
 //------------------------------------------------- 用户登录凭证表 数据访问层的测试
 
-@Autowired
-private LoginTicketMapper loginTicketMapper;
+	@Autowired
+	private LoginTicketMapper loginTicketMapper;
 	//测试增加
 	@Test
 	public void test3(){
@@ -109,6 +110,17 @@ private LoginTicketMapper loginTicketMapper;
 		loginTicketMapper.updateStatus("abc",1);
 		loginTicket = loginTicketMapper.selectByTicket("abc");
 		System.out.println(loginTicket);
+	}
+
+//------------------------------------------------- 评论表 数据访问层的测试
+	@Autowired
+	private CommentMapper commentMapper;
+
+	//测试查询
+	@Test
+	public void test01(){
+		int i = commentMapper.selectCountByEntity(1, 228);
+		System.out.println(i);
 	}
 
 //------------------------------------------------------------------------普通测试

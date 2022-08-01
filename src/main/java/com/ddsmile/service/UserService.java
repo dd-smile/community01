@@ -56,6 +56,15 @@ public class UserService implements CommunityConstant {
         return userMapper.selectById(id);
     }
 
+    /**
+     * 根据用户名查询用户
+     * @param username 用户名
+     * @return
+     */
+    public User findUserByName(String username){
+        return userMapper.selectByName(username);
+    }
+
     // 由于注册是针对用户表的数据，因此注册逻辑写在UserService中
 
     /**

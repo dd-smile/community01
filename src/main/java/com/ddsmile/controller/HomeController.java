@@ -38,7 +38,7 @@ public class HomeController {
         //配置当前路径
         page.setPath("/index");
 
-        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getoffset(), page.getLimit());
+        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
         List<Map<String,Object>> discussPosts = new ArrayList<>();
         System.out.println("进入控制器");
         if(list != null){
@@ -54,6 +54,15 @@ public class HomeController {
         //调用模板thymeleaf中的方法
         model.addAttribute("discussPosts",discussPosts);
         return "index";
+    }
+
+    /**
+     * 返回错误页面
+     * @return
+     */
+    @RequestMapping(path = "/error", method = RequestMethod.GET)
+    public String getErrorPage(){
+        return "/error/500";
     }
 
 }
