@@ -4,7 +4,10 @@ import com.ddsmile.entity.DiscussPost;
 import com.ddsmile.entity.Page;
 import com.ddsmile.entity.User;
 import com.ddsmile.service.DiscussPostService;
+import com.ddsmile.service.LikeService;
 import com.ddsmile.service.UserService;
+import com.ddsmile.util.CommunityConstant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +24,13 @@ import java.util.Map;
  * 完成的功能是 : 查询用户所发表的帖子显示在首页中
  */
 @Controller
-public class HomeController {
+public class HomeController implements CommunityConstant {
     @Resource
     private DiscussPostService discussPostService;
     @Resource
     private UserService userService;
+    @Autowired
+    private LikeService likeService;
 
     @RequestMapping(path = "/index",method = RequestMethod.GET)
     public String getIndexPage(Model model, Page page){
@@ -48,6 +53,11 @@ public class HomeController {
                 User user = userService.findUserById(post.getUserId());
                 System.out.println(user);
                 map.put("user",user);
+
+                //查看帖子赞的数量
+                long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST,post.getId());
+                map.put("likeCount",likeCount);
+
                 discussPosts.add(map);
             }
         }
@@ -64,5 +74,6 @@ public class HomeController {
     public String getErrorPage(){
         return "/error/500";
     }
+
 
 }
