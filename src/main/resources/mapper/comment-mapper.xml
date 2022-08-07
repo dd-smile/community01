@@ -36,4 +36,12 @@
         values (#{userId}, #{entityType}, #{entityId}, #{targetId}, #{content}, #{status}, #{createTime})
     </insert>
 
+    <!--根据id查询评论-->
+    <select id="selectCommentById" resultType="Comment">
+        select <include refid="selectFields"></include>
+        from comment
+        where id = #{id}
+    </select>
+
+
 </mapper>
