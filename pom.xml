@@ -13,6 +13,8 @@
 	<version>1.0.0</version>
 	<name>community</name>
 	<description>Demo project for Spring Boot</description>
+	<packaging>war</packaging>
+
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -86,10 +88,17 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
+		<!--项目监控-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 
 	</dependencies>
 
 	<build>
+		<finalName>ROOT</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
