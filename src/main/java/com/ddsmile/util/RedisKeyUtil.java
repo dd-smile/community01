@@ -68,11 +68,13 @@ public class RedisKeyUtil {
     }
 
     //登录凭证
+    // ticket: ticket
     public static String getTicketKey(String ticket){
         return PREFIX_TICKET + SPLIT + ticket;
     }
 
     //用户
+    // user : userId
     public static String getUserKey(int userId){
         return PREFIX_USER + SPLIT + userId;
     }
