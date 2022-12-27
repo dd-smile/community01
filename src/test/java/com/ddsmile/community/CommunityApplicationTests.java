@@ -1,13 +1,9 @@
 package com.ddsmile.community;
 
 
-import com.ddsmile.dao.CommentMapper;
-import com.ddsmile.dao.DiscussPostMapper;
-import com.ddsmile.dao.LoginTicketMapper;
-import com.ddsmile.dao.UserMapper;
-import com.ddsmile.entity.DiscussPost;
-import com.ddsmile.entity.LoginTicket;
-import com.ddsmile.entity.User;
+import com.ddsmile.dao.*;
+import com.ddsmile.entity.*;
+import com.ddsmile.mqtt.Callback;
 import com.ddsmile.util.DeleteRubbish;
 import com.ddsmile.util.MailClient;
 import org.junit.jupiter.api.Test;
@@ -20,7 +16,9 @@ import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 测试类
@@ -29,10 +27,15 @@ import java.util.List;
 class CommunityApplicationTests {
 
 //----------------------------------------------- 用户表与帖子表 数据访问层的测试
+
+	@Resource
+	private DataWatchMapper dataWatchMapper;
 	@Resource
 	private UserMapper userMapper;
 	@Resource
 	private DiscussPostMapper discussPostMapper;
+	@Resource
+	private DataSensorMapper dataSensorMapper;
 
 	@Test
 	public void testSelectUser(){
@@ -84,7 +87,51 @@ class CommunityApplicationTests {
 	}
 
 
+//------------------------------------------------节点数据数据访问层测试
 
+	//测试增加
+	@Test
+	public void testInsertDataWatch(){
+		DataWatch dataWatch = new DataWatch();
+		dataWatch.setDeviceId(1);
+		dataWatch.setSensorName("温度");
+		dataWatch.setSensorTag("温湿度传感器");
+		dataWatch.setSensorVar(20);
+		dataWatch.setRecordTime(new Date(System.currentTimeMillis() + 1000*60*10));
+		dataWatchMapper.insertDataWatch(dataWatch);
+	}
+	//测试查询
+	@Test
+	public void testSelectDataById(){
+		DataWatch dataWatch = dataWatchMapper.selectDataById(1);
+		System.out.println(dataWatch);
+	}
+
+	@Test
+	public void getDataMapTest(){
+		Map<String,Object> map_test = new HashMap<>();
+		Callback callback = new Callback();
+		System.out.println(map_test.get("temp"));
+		System.out.println(map_test.get("hum"));
+		System.out.println(map_test.get("co2"));
+	}
+
+	//测试增加DataSensor数据
+	@Test
+	public void testInsertDataSensor(){
+		DataSensor dataSensor = new DataSensor();
+		dataSensor.setSensorTemp("29");
+		dataSensor.setSensorHum("44");
+		dataSensor.setSensorCo2("420");
+		dataSensor.setRecordTime(new Date(System.currentTimeMillis() + 1000*60*10));
+		dataSensorMapper.insertDataSensor(dataSensor);
+	}
+	//测试查询最新一条DataSensor数据
+	@Test
+	public void testSelectDataSensor(){
+		DataSensor dataSensor = dataSensorMapper.selectDataByTime();
+		System.out.println(dataSensor);
+	}
 
 //------------------------------------------------- 用户登录凭证表 数据访问层的测试
 

@@ -1,5 +1,6 @@
 package com.ddsmile.community;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ddsmile.dao.DiscussPostMapper;
 import com.ddsmile.dao.MessageMapper;
 import com.ddsmile.entity.DiscussPost;
@@ -58,6 +59,14 @@ public class Test1 {
 
         int i2 = messageMapper.selectLettersUnreadCount(131, "111_131");
         System.out.println(i2);
+    }
+
+    @Test
+    public void testJson(){
+        String s = "{\"Temp\":19,\"Hum\":44,\"Co2\":400}";
+        JSONObject jsonObject = JSONObject.parseObject(s);
+        String temp = jsonObject.getString("Temp");
+        System.out.println(temp);
     }
 
 }

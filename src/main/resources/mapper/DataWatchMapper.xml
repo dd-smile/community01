@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddsmile.dao.DataWatchMapper">
+
+    <select id="selectDataById" resultType="DataWatch">
+        select device_id, sensor_tag, sensor_name, sensor_var, record_time
+        from sensor
+        where device_id = #{deviceId}
+    </select>
+
+    <insert id="insertDataWatch" parameterType="DataWatch">
+        insert into sensor (sensor_tag, sensor_name, sensor_var, record_time)
+        values (#{sensorTag},#{sensorName},#{sensorVar},#{recordTime})
+    </insert>
+
+    <delete id="deleteDataWatch">
+        delete from sensor where device_id = #{deviceId}
+    </delete>
+
+</mapper>

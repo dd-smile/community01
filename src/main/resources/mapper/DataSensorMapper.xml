@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddsmile.dao.DataSensorMapper">
+
+    <select id="selectDataByTime" resultType="DataSensor">
+        select device_id, sensor_temp, sensor_hum, sensor_co2, record_time
+        from data_sensor
+        order by device_id DESC LIMIT 0,1;
+    </select>
+
+    <insert id="insertDataSensor" parameterType="DataSensor">
+        insert into data_sensor(sensor_temp, sensor_hum, sensor_co2, record_time)
+        values (#{sensorTemp},#{sensorHum},#{sensorCo2},#{recordTime})
+    </insert>
+
+    <delete id="deleteSensor">
+        delete from data_sensor where 1=1 limit 100;
+    </delete>
+
+
+
+</mapper>

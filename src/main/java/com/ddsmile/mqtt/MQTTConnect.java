@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * MQTT工具类操作
  *
- * @author Mr.Qu
- * @since v1.1.0 2022-11-25
+ * 节点数据业务层
  */
 @Component
 public class MQTTConnect {
@@ -120,7 +119,7 @@ public class MQTTConnect {
         mqttConnect.setMqttClient("admin", "7815csdd.", new Callback());
         //mqttConnect.sub("com/iot/init");
         //mqttConnect.pub("com/iot/init", "Mr.Qu" + (int) (Math.random() * 100000000));
-        mqttConnect.sub("iot/o2");
+        mqttConnect.sub("/mytest/pub");
     }
 
 }
