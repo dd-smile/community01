@@ -1,6 +1,10 @@
 package com.ddsmile.mqtt;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ddsmile.controller.DataWatchController;
+import com.ddsmile.util.ButtonUtil;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
@@ -18,8 +22,11 @@ public class MQTTConnect {
     private static final Logger logger = LoggerFactory.getLogger(MQTTConnect.class);
 
     private String HOST = "tcp://42.194.214.101:1883"; //mqtt服务器的地址和端口号
-    private final String clientId = "DC" + (int) (Math.random() * 100000000);
+    private final String clientId = "CSD" + (int) (Math.random() * 100000000);
     private MqttClient mqttClient;
+
+    //static DataWatchController dwc = new DataWatchController();
+
 
     /**
      * 客户端connect连接mqtt服务器
@@ -119,7 +126,20 @@ public class MQTTConnect {
         mqttConnect.setMqttClient("admin", "7815csdd.", new Callback());
         //mqttConnect.sub("com/iot/init");
         //mqttConnect.pub("com/iot/init", "Mr.Qu" + (int) (Math.random() * 100000000));
-        mqttConnect.sub("/mytest/pub");
+//        ButtonUtil button = dwc.getTest();
+//
+//        System.out.println(button.buttonName);
+//        System.out.println(button.flag);
+
+        JSONObject object = new JSONObject();
+        object.put("LED_SW",1);
+        String msg = JSON.toJSONString(object);
+        for (int i = 0; i < 20; i ++){
+            ///mytopic/sub
+            mqttConnect.pub("/testtopic/pub",msg,1);
+        }
+
+        //mqttConnect.sub("/mytest/pub");
     }
 
 }

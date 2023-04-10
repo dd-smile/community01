@@ -5,6 +5,8 @@ import com.ddsmile.dao.DiscussPostMapper;
 import com.ddsmile.dao.MessageMapper;
 import com.ddsmile.entity.DiscussPost;
 import com.ddsmile.entity.Message;
+import com.ddsmile.entity.Scheduled;
+import com.ddsmile.service.ScheduledService;
 import com.ddsmile.util.SensitiveFilter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class Test1 {
     @Autowired
     private DiscussPostMapper discussPostMapper;
 
+    @Autowired
+    private ScheduledService scheduledService;
+
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Test
@@ -39,6 +44,17 @@ public class Test1 {
         String text2 = "这里面可以赌博，可以嫖娼、可以开票哈哈哈！";
         text = sensitiveFilter.filter(text);
         System.out.println(text);
+    }
+
+//------------------------------------------------测试定时任务业务
+    @Test
+    public void testScheduled(){
+
+        scheduledService.updateCronBy("1", "*/5 * * * * ?");
+
+        Scheduled scheduled = scheduledService.findCronById("1");
+        System.out.println(scheduled);
+
     }
 
 

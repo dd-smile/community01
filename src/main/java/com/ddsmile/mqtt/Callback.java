@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -25,7 +27,10 @@ public class Callback implements MqttCallback {
 
     @Autowired
     private DataSensorService dataSensorService;
+
     DataSensor dataSensor = new DataSensor();
+
+    Map<String,Object> map = new HashMap<>();
 
     //记日志
     private static final Logger logger = LoggerFactory.getLogger(Callback.class);
@@ -64,6 +69,11 @@ public class Callback implements MqttCallback {
         System.out.println(hum);
         System.out.println(co2);
 
+        //测试map取得到数据吗
+        map.put("temp", temp);
+        map.put("hum", hum);
+        map.put("co2", co2);
+
 
         dataSensor.setSensorTemp(temp);
         dataSensor.setSensorHum(hum);
@@ -73,5 +83,7 @@ public class Callback implements MqttCallback {
 
     }
 
-
+    public Map<String, Object> getMap() {
+        return map;
+    }
 }

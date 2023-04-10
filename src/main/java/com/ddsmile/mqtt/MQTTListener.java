@@ -20,6 +20,8 @@ public class MQTTListener implements ApplicationListener<ContextRefreshedEvent> 
     private final MQTTConnect server;
     private final Callback callback;
 
+    MQTTConnect mqttConnect = new MQTTConnect();
+
     @Autowired
     public MQTTListener(MQTTConnect server,Callback callback) {
         this.callback = callback;
@@ -28,12 +30,17 @@ public class MQTTListener implements ApplicationListener<ContextRefreshedEvent> 
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        //连接MQTT服务器
         try {
-            server.setMqttClient("admin", "7815csdd.", callback);
+            mqttConnect.setMqttClient("admin", "7815csdd.", new Callback());  //用于发布的连接
+            server.setMqttClient("admin", "7815csdd.", callback);  //用于订阅的连接
             server.sub("/mytest/pub");
         } catch (MqttException e) {
             logger.error(e.getMessage(), e);
         }
     }
 
+    public MQTTConnect getMqttConnect() {
+        return mqttConnect;
+    }
 }

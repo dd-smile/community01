@@ -64,20 +64,50 @@
 				<div id="temperature" style="width: 48%;height: 200px;display: inline-block;">
 					<div style="font-size: 30px;text-align: center;margin-top: 10px;">温度</div>
 					<div style="font-size: 50px;text-align: center;margin-top: 12px;" th:text="${temp}">30<span>℃</span></div>
-					<div style="font-size: 30px;text-align: center;margin-top: 10px;color: green">温度正常</div>
+					<div style="font-size: 30px;text-align: center;margin-top: 10px;color: green" th:text="${nt}">温度正常</div>
 					<div style="font-size: 10px;text-align: center;margin-top: 10px;">（18 ~ 31℃）</div>
 				</div>
 				<div id="humidity" style="width: 48%;height: 200px;display: inline-block;">
 					<div style="font-size: 30px;text-align: center;margin-top: 10px;">湿度</div>
-					<div style="font-size: 50px;text-align: center;margin-top: 12px;" th:text="${hum}">30<span>%</span></div>
-					<div style="font-size: 30px;text-align: center;margin-top: 10px;color: green">湿度正常</div>
+					<div style="font-size: 50px;text-align: center;margin-top: 12px;" th:text="${hum}">40<span>%</span></div>
+					<div style="font-size: 30px;text-align: center;margin-top: 10px;color: green" th:text="${nh}">湿度正常</div>
 					<div style="font-size: 10px;text-align: center;margin-top: 10px;">（40 ~ 60%）</div>
 				</div>
 				<div id="carbon" style="width: 48%;height: 200px;display: inline-block;">
 					<div style="font-size: 30px;text-align: center;margin-top: 10px;">二氧化碳</div>
 					<div style="font-size: 50px;text-align: center;margin-top: 12px;" th:text="${co2}">400<span>ppm</span></div>
-					<div style="font-size: 30px;text-align: center;margin-top: 10px;color: green">二氧化碳浓度正常</div>
-					<div style="font-size: 10px;text-align: center;margin-top: 10px;">（350 ~ 750ppm）</div>
+					<div style="font-size: 30px;text-align: center;margin-top: 10px;color: green" th:text="${nc}">二氧化碳浓度正常</div>
+					<div style="font-size: 10px;text-align: center;margin-top: 10px;">（350 ~ 500ppm）</div>
+				</div>
+				<div id="button" style="width: 48%;height: 200px;display: inline-block;">
+					<form class="mt-5" method="post" th:action="@{/subbutton}">
+						<div class="form-group row">
+							<label for="sub" class="col-sm-2 col-form-label text-right">开 关:</label>
+							<div class="col-sm-10">
+								<input type="text" th:class="|form-control ${usernameMsg!=null?'is-invalid':''}|"
+									   th:value="${param.sub}"
+									   id="sub" name="sub" placeholder="请输入开关值!" required>
+								<div class="invalid-feedback" th:text="${usernameMsg}">
+									该账号不存在!
+								</div>
+							</div>
+							<label for="sub" class="col-sm-2 col-form-label text-right">定时 任务:</label>
+							<div class="col-sm-10">
+								<input type="text" th:class="|form-control ${usernameMsg!=null?'is-invalid':''}|"
+									   th:value="${param.task}"
+									   id="task" name="task" placeholder="请输入要定时的值!" required>
+								<div class="invalid-feedback" th:text="${usernameMsg}">
+									该账号不存在!
+								</div>
+							</div>
+						</div>
+						<div class="form-group row mt-4">
+							<div class="col-sm-2"></div>
+							<div class="col-sm-10 text-center">
+								<button type="submit" class="btn btn-info text-white form-control">提交</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -123,18 +153,18 @@
 							<div class="col">
 								<ul class="nav btn-group-vertical company-info">
 									<li class="nav-item text-white-50">
-										公司地址：北京市朝阳区大屯路东金泉时代3-2708北京牛客科技有限公司
+										公司地址：五邑大学
 									</li>
 									<li class="nav-item text-white-50">
-										联系方式：010-60728802(电话)&nbsp;&nbsp;&nbsp;&nbsp;admin@nowcoder.com
+										联系方式：12345678(电话)&nbsp;&nbsp;&nbsp;&nbsp;admin@wuyi.com
 									</li>
 									<li class="nav-item text-white-50">
-										牛客科技©2018 All rights reserved
+										五邑大学©1985 All rights reserved
 									</li>
 									<li class="nav-item text-white-50">
-										京ICP备14055008号-4 &nbsp;&nbsp;&nbsp;&nbsp;
+										广ICP备1111111111号-4 &nbsp;&nbsp;&nbsp;&nbsp;
 										<img src="http://static.nowcoder.com/company/images/res/ghs.png" style="width:18px;" />
-										京公网安备 11010502036488号
+										广公网安备 11111111111111号
 									</li>
 								</ul>
 							</div>
@@ -149,5 +179,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 	<script th:src="@{/js/global.js}"></script>
+
 </body>
 </html>

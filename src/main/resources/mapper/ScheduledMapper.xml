@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddsmile.dao.ScheduledMapper">
+
+    <select id="selectCronById" resultType="Scheduled">
+        select cron_id, cron_name, cron
+        from scheduled
+        where cron_id = #{cronId}
+    </select>
+
+    <update id="updateCron">
+        update scheduled set cron = #{cron} where cron_id = #{cronId}
+    </update>
+</mapper>
