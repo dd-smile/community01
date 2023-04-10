@@ -1,5 +1,8 @@
 package com.ddsmile.util;
 
+/**
+ * 用于设置节点数据页面的开关标志位
+ */
 public class ButtonUtil {
     public int flag;//开关标志位
     public String buttonName;//按钮名称

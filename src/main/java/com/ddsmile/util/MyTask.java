@@ -47,7 +47,7 @@ public class MyTask implements SchedulingConfigurer {
     }
 
     private void process() throws MqttException {
-        mqttListener.getMqttConnect().pub("/mytopic/sub","123",0);   //测试发布功能
+        //mqttListener.getMqttConnect().pub("/mytopic/sub","123",0);   //测试发布功能
         //mqttListener.getMqttConnect().pub("/mytopic/task",,0);     //发布定时任务
 
         System.out.println("基于接口定时任务");

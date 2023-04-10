@@ -35,13 +35,14 @@ public class DataWatchController{
     @Autowired
     private ScheduledService scheduledService;
 
-    Callback callback = new Callback();
-    Map<String,Object> map = new HashMap<>();
+//    Callback callback = new Callback();  //测试Map取得到数据吗?
+//    Map<String,Object> map = new HashMap<>();
+
     ButtonUtil test = new ButtonUtil();
     JSONObject object = new JSONObject();
 
     @Autowired
-    private MQTTListener mqttListener;
+    private MQTTListener mqttListener;  //用于建立发布消息连接
 
 
     /*
@@ -50,15 +51,15 @@ public class DataWatchController{
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String addData(Model model){
 
-
         System.out.println("进入节点数据页面");
 
+        //查询一条最新的节点数据
         DataSensor dataSensor = dataSensorService.selectDataByT();
 
-        map = callback.getMap();
-        System.out.println(map.get("temp"));
-        System.out.println(map.get("hum"));
-        System.out.println(map.get("co2"));
+//        map = callback.getMap();
+//        System.out.println(map.get("temp"));
+//        System.out.println(map.get("hum"));
+//        System.out.println(map.get("co2"));
 
         /**
          * 进行阀值判断
@@ -102,8 +103,6 @@ public class DataWatchController{
     @RequestMapping(value = "/subbutton", method = RequestMethod.POST)
     public String subButton(String sub,String task,Model model) throws MqttException {
 
-        //myTask.getMqttConnect().setMqttClient("admin", "7815csdd.", new Callback());
-
 //        MQTTConnect mqttConnect = new MQTTConnect();
 //        mqttConnect.setMqttClient("admin", "7815csdd.", new Callback());
         /*
@@ -133,39 +132,67 @@ public class DataWatchController{
         /**
          * 设置定时任务
          */
-//        if (task == null){
-//            //
-//        }else {
-//            scheduledService.updateCronBy("1", task);
-//        }
+        if (task == null){
+            //
+        }else {
+            switch (task)
+            {
+                case "每隔5秒钟执行一次":
+                    scheduledService.updateCronBy("1", "0/5 * * * * ?");
+                    break;
+                case "每隔10秒钟执行一次":
+                    scheduledService.updateCronBy("1", "0/10 * * * * ?");
+                    break;
+                case "每隔30秒钟执行一次":
+                    scheduledService.updateCronBy("1", "0/30 * * * * ?");
+                    break;
+                case "每隔1分钟执行一次":
+                    scheduledService.updateCronBy("1", "0 0/1 * * * ?");
+                    break;
+                case "每天23点55分执行一次":
+                    scheduledService.updateCronBy("1", "0 55 23 * * ?");
+                    break;
+                case "每周六8点执行一次":
+                    scheduledService.updateCronBy("1", "0 0 8 ? * L");
+                    break;
+                case "每月最后一个周五，每隔2小时执行一次":
+                    scheduledService.updateCronBy("1", "0 0 */2 ? * 6L");
+                    break;
+                case "每月的第三个星期五上午10:15执行一次":
+                    scheduledService.updateCronBy("1", "0 15 10 ? * 6L");
+                    break;
+                case "朝九晚五工作时间内每半小时执行一次":
+                    scheduledService.updateCronBy("1", "0 0/30 9-17 * * ?");
+                    break;
+                case "每个星期三中午12点执行一次":
+                    scheduledService.updateCronBy("1", "0 0 12 ? * 4");
+                    break;
+                case "每天上午10点，下午2点，4点执行一次":
+                    scheduledService.updateCronBy("1", "0 0 10,14,16 * * ?");
+                    break;
+                case "每分钟的第10秒与第20秒都会执行":
+                    scheduledService.updateCronBy("1", "10,20 * * * * ?");
+                    break;
+            }
+        }
 
         return "/site/search";
     }
 
 
     //        表达式	                                意义
-//        每隔5秒钟执行一次	                        */5 * * * * ?
-//        每隔1分钟执行一次	                        0 * /1 * * * ?
-//        每天1点执行一次	                            0 0 1 * * ?
-//        每天23点55分执行一次 　	                    0 55 23 * * ？
-//        每月最后一天23点执行一次	                    0 0 23 L * ？
+//        每隔5秒钟执行一次	                        0/5 * * * * ?
+//        每隔10秒钟执行一次	                        0/10 * * * * ?
+//        每隔30秒钟执行一次	                        0/30 * * * * ?
+//        每隔1分钟执行一次 　	                    0 0/1 * * * ?
+//        每天23点55分执行一次	                    0 55 23 * * ?
 //        每周六8点执行一次	                        0 0 8 ? * L
 //        每月最后一个周五，每隔2小时执行一次 　	        0 0 */2 ? * 6L
-//        每月的第三个星期五上午10:15执行一次	        0 15 10 ? * 5#3
-//        在每天下午2点到下午2:05期间的每1分钟执行	    0 0-5 14 * * ?
-//        表示周一到周五每天上午10:15执行 　	        0 15 10 ? * 2-6
-//        每个月的最后一个星期五上午10:15执行	        0 15 10 ? * 6L
-//        每天上午10点，下午2点，4点执行一次	        0 0 10,14,16 * * ?
+//        每月的第三个星期五上午10:15执行一次	        0 15 10 ? * 6L
 //        朝九晚五工作时间内每半小时执行一次	            0 0/30 9-17 * * ?
 //        每个星期三中午12点执行一次 　	            0 0 12 ? * 4
-//        每年三月的星期三的下午2:10和2:44各执行一次	    0 10,44 14 ? 3 4　
-//        每月的第三个星期五上午10:15执行一次	        0 15 10 ? * 6#3
-//        每月一日凌晨2点30执行一次	                0 30 2 1 * ?
-//        每分钟的第10秒与第20秒都会执行	            10,20 * * * * ?
-//        每月的第2个星期的周5，凌晨执行	            0 0 0 ? * 6#2
-
-
-
+//        每天上午10点，下午2点，4点执行一次	        0 0 10,14,16 * * ?
+//        每分钟的第10秒与第20秒都会执行               10,20 * * * * ?
 
 
     public ButtonUtil getTest() {
