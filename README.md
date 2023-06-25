@@ -14,6 +14,7 @@
 - 整体架构：SpringBoot（版本2.7.1）。
 
 架构图如下：
+
 ![宠物论坛系统架构图](https://github.com/dd-smile/community01/assets/60083638/c6c4812f-1bb5-4c55-a4da-5c97756ec0e1)
 
 
